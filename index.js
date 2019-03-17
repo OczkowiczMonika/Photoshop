@@ -28,9 +28,34 @@ const reader = new FileReader();
 
 const ctx = canvas.getContext('2d');
 
+const redButton = document.querySelector('#chooseRed');
+
+const greenButton = document.querySelector('#chooseGreen');
+
+const yellowButton = document.querySelector('#chooseYellow');
+
 let isGray = false;
 
 let originalData;
+
+let paint = false;
+
+let clickX = new Array();
+
+let clickY = new Array();
+
+let clickDrag = new Array();
+
+
+
+let red = "#df4b26";
+let green = "#659b41";
+let yellow = "#ffcf33";
+
+
+var curColor = red;
+var clickColor = new Array();
+
 
 //Initial image
 
@@ -39,6 +64,32 @@ let currentImg = new Image();
 currentImg.src = './img.jpg';
 
 
+
+function addClick(x, y, dragging) {
+  clickX.push(x);
+  clickY.push(y);
+  clickDrag.push(dragging);
+  clickColor.push(curColor);
+}
+
+
+function redraw(){
+  ctx.lineJoin = "round";
+  ctx.lineWidth = 5;
+			
+  for(var i=0; i < clickX.length; i++) {		
+    ctx.beginPath();
+    if(clickDrag[i] && i){
+      ctx.moveTo(clickX[i-1], clickY[i-1]);
+     }else{
+       ctx.moveTo(clickX[i]-1, clickY[i]);
+     }
+     ctx.lineTo(clickX[i], clickY[i]);
+     ctx.closePath();
+	 ctx.strokeStyle = clickColor[i];
+     ctx.stroke();
+  }
+}
 
 function load(event){
 
@@ -54,7 +105,7 @@ function load(event){
 
     }}
 
-    }
+}
 
 
 
@@ -120,30 +171,69 @@ function showUsedImage(event){
 
 function handleListeners(){
 
-    brightness.addEventListener('change', () => Photoshop.enlighten(ctx, createImageData(ctx, originalData), parseInt(brightness.value)))
+    brightness.addEventListener('change', () => Photoshop.enlighten(ctx, createImageData(ctx, originalData), parseInt(brightness.value)));
 
-    blur.addEventListener('change', () => Photoshop.blur(ctx, createImageData(ctx, originalData), parseInt(blur.value)))
+    blur.addEventListener('change', () => Photoshop.blur(ctx, createImageData(ctx, originalData), parseInt(blur.value)));
 
-    grayscale.addEventListener('click', () => isGray = Photoshop.grayscale(ctx, createImageData(ctx, originalData), isGray))
+    grayscale.addEventListener('click', () => isGray = Photoshop.grayscale(ctx, createImageData(ctx, originalData), isGray));
 
-    saturation.addEventListener('change', () => Photoshop.saturate(ctx, createImageData(ctx, originalData)))
+    saturation.addEventListener('change', () => Photoshop.saturate(ctx, createImageData(ctx, originalData)));
 
-    contrast.addEventListener('change', () => Photoshop.contrast(ctx, createImageData(ctx, originalData), parseInt(contrast.value)))
+    contrast.addEventListener('change', () => Photoshop.contrast(ctx, createImageData(ctx, originalData), parseInt(contrast.value)));
 
-    loader.addEventListener('change', () => load(event))
+    loader.addEventListener('change', (e) => load(e));
 
     currentImg.addEventListener('load', () => {
 
-        createSideImage()
+        createSideImage();
 
-        ctx.drawImage(currentImg, 0, 0, canvas.width, canvas.height)
+        ctx.drawImage(currentImg, 0, 0, canvas.width, canvas.height);
 
         originalData = ctx.getImageData(0, 0, canvas.width, canvas.height );
 
-    })
+    });
 
     sideBtn.addEventListener('click', sideBarAnimate );
+	
+	
 
+	
+	canvas.addEventListener('mousedown', (e) => {
+		var mouseX = e.pageX - canvas.offsetLeft;
+		var mouseY = e.pageY - canvas.offsetTop;
+		
+		paint = true;
+		addClick(e.pageX - canvas.offsetLeft, e.pageY - canvas.offsetTop);
+		redraw();
+	});
+
+	canvas.addEventListener('mousemove', (e) => {
+		if(paint){
+			addClick(e.pageX - canvas.offsetLeft, e.pageY - canvas.offsetTop, true);
+			redraw();
+		}
+	});
+
+	canvas.addEventListener('mouseup', () => {
+		paint = false;
+	});
+
+	canvas.addEventListener('mouseleave', () => {
+		paint = false;
+	});
+	
+	redButton.addEventListener('click', () => {
+		curColor = red;
+	});
+	
+	greenButton.addEventListener('click', () => {
+		curColor = green;
+	});
+	
+	yellowButton.addEventListener('click', () => {
+		curColor = yellow;
+	});
+	
 }
 
 handleListeners();
