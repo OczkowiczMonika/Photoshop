@@ -1,14 +1,11 @@
 <!DOCTYPE html>
 
 
-
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
-
 
 
 <head>
 
-    
 
     <meta charset="UTF-8">
 
@@ -16,118 +13,117 @@
 
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-    
 
     <title>Photoshop</title>
 
-    
 
-    <link rel = "stylesheet" href = "style.css" />
+    <link rel="stylesheet" href="style.css"/>
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <script src="index.js" type="module"></script>
 
-    
 
 </head>
 
 
-
 <body>
 
-    
 
-    <div id="container">
+<div id="container">
 
-        <canvas id="canvas"></canvas>
+    <canvas id="canvas"></canvas>
 
-    </div>
+</div>
+
+<div id="colours">
+	<button id="chooseRed" type="button">czerwony</button>
+	<button id="chooseGreen" type="button">zielony</button>
+	<button id="chooseYellow" type="button">żółty</button>
+</div>
 
 
+<div id="control">
 
-    <div id="control">
-
+    <div>
         <label for="loader" class="file-input">
 
             <span>Wczytaj nowy plik</span>
 
-            <input type="file" id="loader" accept="image/png, image/jpeg" />
+            <input type="file" id="loader" accept="image/png, image/jpeg"/>
 
         </label>
+    </div>
 
-        
 
+    <div>
         <label id="brightness-label">
 
-                <span class="label-txt">Jasność</span>
+            <span class="label-txt">Jasność</span>
 
-                <input type="range" id="brightness" min="0" max="100" value="0" />
+            <input type="range" id="brightness" min="0" max="100" value="0"/>
 
         </label>
+    </div>
 
 
-
+    <div>
         <label id="contrast-label">
 
-                 <span class="label-txt">Kontrast</span>
+            <span class="label-txt">Kontrast</span>
 
-                <input type="range" id="contrast" min="-100" max="100" value="0" />
+            <input type="range" id="contrast" min="-100" max="100" value="0"/>
 
         </label>
+    </div>
 
 
-
+    <div>
         <label id="saturation-label">
 
-                 <span class="label-txt">Nasycenie</span>
+            <span class="label-txt">Nasycenie</span>
 
-                <input type="range" id="saturation" min="-100" max="100" value="0" />
+            <input type="range" id="saturation" min="-100" max="100" value="0"/>
 
         </label>
+    </div>
 
 
-
+    <div>
         <label id="blur-label">
 
-                 <span class="label-txt">Rozmycie</span>
+            <span class="label-txt">Rozmycie</span>
 
-                <input type="range" id="blur" min="1" max="255" value="0" />
+            <input type="range" id="blur" min="1" max="255" value="0"/>
 
         </label>
+    </div>
 
 
-
+    <div>
         <button id="grayscale">Szarość</button>
-
-
-
     </div>
 
 
+</div>
 
-    <div id="sidebar" class="hidden">
+<button id="side-btn">
 
-        <div id="images">
+    <i id="icon" class="material-icons md-36">arrow_forward</i>
 
-            <span>Używane dzisiaj zdjęcia:</span>
+</button>
 
-        </div>
+<div id="sidebar" class="hidden">
 
-        <button id="side-btn">
+    <div id="images">
 
-            <i id="icon" class="material-icons md-36">arrow_forward</i>
-
-        </button>
+        <span>Używane dzisiaj zdjęcia:</span>
 
     </div>
 
-    
-
-    <script src="./scripts/index.js" type="module"></script>
-
+</div>
 
 
 </body>
-
 
 
 </html>
